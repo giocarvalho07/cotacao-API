@@ -19,8 +19,9 @@ WORKDIR /app
 # Executa o build do Maven
 RUN mvn clean install
 
-# --- Segunda Stage (Opcional, para uma imagem final menor) ---
-FROM openjdk:17-jre-slim
+# --- Segunda Stage (Para uma imagem final menor) ---
+# Usar 17-jre que geralmente é o que se aproxima mais do "slim jre" para Java 17
+FROM openjdk:17-jre
 
 COPY --from=build /app/target/*.jar app.jar
 

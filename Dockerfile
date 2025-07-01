@@ -1,19 +1,27 @@
-FROM ubuntu:latest AS build
+FROM openjdk:17-jdk-slim AS build
 
-RUN apt-get update
-RUN apt-get install openjdk-11-jdk -y
+# Definir JAVA_HOME explicitamente (geralmente não necessário com imagens openjdk, mas útil para depurar)
+ENV JAVA_HOME /usr/local/openjdk-17
+ENV PATH $JAVA_HOME/bin:$PATH
 
-COPY . .
+# Instalar Maven e limpar o cache do apt
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    maven \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install maven -y
+# Verificar a versão do Java ANTES de rodar o Maven para depuração
+RUN java -version
+RUN mvn --version
+
+COPY . /app
+WORKDIR /app
+
+# Executa o build do Maven
 RUN mvn clean install
 
-FROM openjdk:17-jdk-slim
+# --- Segunda Stage (Opcional, para uma imagem final menor) ---
+FROM openjdk:17-jre-slim
 
-EXPOSE 8080
+COPY --from=build /app/target/*.jar app.jar
 
-COPY --from=build /target/cotacao-moedas-0.0.1-SNAPSHOT.jar app.jar
-
-ENTRYPOINT ["java", "-jar", "app.jar" ]
-
-
+ENTRYPOINT ["java", "-jar", "app.jar"]

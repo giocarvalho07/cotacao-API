@@ -20,8 +20,8 @@ WORKDIR /app
 RUN mvn clean install
 
 # --- Segunda Stage (Para uma imagem final menor) ---
-# Usar 17-jre que geralmente é o que se aproxima mais do "slim jre" para Java 17
-FROM openjdk:17-jre
+# Usar 17-slim para o runtime (contém um JDK mínimo)
+FROM openjdk:17-slim
 
 COPY --from=build /app/target/*.jar app.jar
 

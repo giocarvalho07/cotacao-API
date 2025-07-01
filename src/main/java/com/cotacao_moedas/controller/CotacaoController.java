@@ -15,6 +15,7 @@ import java.util.Map;
 
 @RestController // Indica que esta classe é um controlador REST e seus métodos retornarão dados JSON/XML
 @RequestMapping("/api/v1/cotacao") // Define o prefixo de URL para todos os endpoints neste controlador
+@CrossOrigin(origins = "http://localhost:3000")
 public class CotacaoController {
 
     private final CotacaoService cotacaoService; // Injeta o serviço que criamos

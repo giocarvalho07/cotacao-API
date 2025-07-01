@@ -41,8 +41,3 @@ Siga os passos abaixo para configurar e rodar a aplicação em sua máquina loca
 * **Docker** e **Docker Compose** instalados (recomendado para rodar o PostgreSQL localmente).
 * Um IDE como IntelliJ IDEA, VS Code ou Eclipse.
 
-### 1. Clonar o Repositório
-
-```bash
-git clone [https://github.com/giocarvalho07/cotacao-API.git](https://github.com/giocarvalho07/cotacao-API.git)
-cd cotacao-API
